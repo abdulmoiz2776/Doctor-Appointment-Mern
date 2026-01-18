@@ -1,8 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import { AppContext } from '../context/AppContext';
+const backendUrl = import.meta.env.VITE_BACKEND_URI;
+console.log("backend url" , backendUrl)
 
 const Login = () => {
   const [state, setState] = useState('Sign Up');
@@ -19,6 +21,8 @@ const Login = () => {
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
+     
+
 
     try {
       if (state === 'Sign Up') {
@@ -28,14 +32,14 @@ const Login = () => {
         formData.append('email', email);
         formData.append('password', password);
         formData.append('birthday', birthday);
-        formData.append('phone', phone);
+        formData.append('phone', String(phone));
         formData.append('address', address);
         formData.append('gender', gender);
         if (img) {
           formData.append('image', img); // Append the image file
         }
 
-        const { data } = await axios.post('http://localhost:3000/api/auth/signup', formData, {
+        const { data } = await axios.post(`${backendUrl}/api/auth/signup`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
@@ -49,7 +53,7 @@ const Login = () => {
         }
       } else {
         // Handle login
-        const { data: loginData } = await axios.post('http://localhost:3000/api/auth/signin', {
+        const { data: loginData } = await axios.post(`${backendUrl}/api/auth/signin`, {
           email,
           password,
         });

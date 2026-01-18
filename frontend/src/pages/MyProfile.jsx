@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { assets } from '../assets/assets_frontend/assets';
+//import { assets } from '../assets/assets_frontend/assets';
 import { AppContext } from '../context/AppContext';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -8,6 +8,7 @@ const MyProfile = () => {
   const { userData, setUserData, token, loadUserData } = useContext(AppContext);
   const [isEdit, setIsEdit] = useState(true);
   const [image, setImage] = useState(false);
+  const backendUrl = import.meta.env.VITE_BACKEND_URI;
 
   const updateUserProfile = async () => {
     try {
@@ -20,7 +21,7 @@ const MyProfile = () => {
       formData.append('gender', userData.gender);
       image && formData.append('image', image);
       
-      const { data } = await axios.post('http://localhost:3000/api/auth/update-profile', formData, {
+      const { data } = await axios.post(`${backendUrl}/api/auth/update-profile`, formData, {
         headers: { Authorization: `Bearer ${token}` },
       });
 

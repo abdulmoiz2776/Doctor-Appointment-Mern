@@ -13,7 +13,7 @@ import {toast} from 'react-toastify'
     const backendUrl = import.meta.env.VITE_BACKEND_URI;
     const getDoctorsData=async()=>{
         try {
-            const {data}=await axios.post('http://localhost:3000'+'/api/doctor/doctor-list')
+            const {data}=await axios.post(`${backendUrl}/api/doctor/doctor-list`)
             if(data.success){
             setDoctors(data.doctors)
             }
@@ -29,7 +29,7 @@ import {toast} from 'react-toastify'
     }
     const loadUserData=async()=>{
         try {
-            const {data}=await axios.get('http://localhost:3000'+'/api/auth/get-profile', {
+            const {data}=await axios.get(`${backendUrl}/api/auth/get-profile`, {
                 headers: {
                   Authorization: `Bearer ${token}`, // Pass token in headers
                 },
@@ -39,7 +39,7 @@ import {toast} from 'react-toastify'
                 console.log(data.dob)
 
               }else{
-                toast(error.message)
+                toast(data.message)
               }
             
         } catch (error) {

@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 const Appointment = () => {
   
+const backendUrl = import.meta.env.VITE_BACKEND_URI;
 
   const { docId } = useParams();
   const [docInfo, setDocInfo] = useState(null);
@@ -75,7 +76,7 @@ const bookAppointment=async()=>{
     let year=date.getFullYear()
     const slotDate=day+"_"+month+"_"+year
     console.log(slotDate)
-    const {data}=await axios.post('http://localhost:3000'+'/api/auth/book-appointment',{docId,slotDate,slotTime},{headers:{Authorization:`Bearer ${token}`},})
+    const {data}=await axios.post(`${backendUrl}/api/auth/book-appointment`,{docId,slotDate,slotTime},{headers:{Authorization:`Bearer ${token}`},})
     if(data.success){
       toast(data.message)
       getDoctorsData()

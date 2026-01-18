@@ -9,15 +9,31 @@ import Appointment from "../models/Appointment.models.js";
 export const signUp = async (req, res) => {
   const { name, email, password, birthday, gender, address, phone } = req.body;
   const imageFile = req.file;
-  console.log(name)
-  console.log(email)
-  console.log(birthday)
-  console.log(password)
-  console.log(gender)
-  console.log(String(phone))
-  console.log(address)
+  console.log("=== SignUp Request ===");
+  console.log("name:", name);
+  console.log("email:", email);
+  console.log("birthday:", birthday);
+  console.log("password:", password);
+  console.log("gender:", gender);
+  console.log("phone:", phone);
+  console.log("address:", address);
+  console.log("imageFile:", imageFile ? "File received" : "No file");
+  console.log("==================");
+  
   if (!email || !name || !password || !gender || !birthday || !phone || !address) {
-    return res.status(400).json({ success: false, message: "Details are missing" });
+    const missing = [];
+    if (!name) missing.push("name");
+    if (!email) missing.push("email");
+    if (!password) missing.push("password");
+    if (!gender) missing.push("gender");
+    if (!birthday) missing.push("birthday");
+    if (!phone) missing.push("phone");
+    if (!address) missing.push("address");
+    return res.status(400).json({ success: false, message: `Details are missing: ${missing.join(", ")}` });
+  }
+  
+  if (!imageFile) {
+    return res.status(400).json({ success: false, message: "Image file is required" });
   }
 
 
